@@ -9,61 +9,78 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      title: 'Hackathon App',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      home: const DashboardScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Live Matches'),
+        title: const Text('Smart Dashboard'),
         centerTitle: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(12),
-        children: const [
-          MatchCard(team1: 'India', team2: 'Australia'),
-          MatchCard(team1: 'CSK', team2: 'MI'),
-          MatchCard(team1: 'RCB', team2: 'KKR'),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          children: const [
+            InfoCard(title: 'Routes', value: '124'),
+            InfoCard(title: 'Active Users', value: '89'),
+            InfoCard(title: 'Avg Load', value: '62%'),
+            InfoCard(title: 'System Status', value: 'Stable'),
+          ],
+        ),
       ),
     );
   }
 }
 
-class MatchCard extends StatelessWidget {
-  final String team1;
-  final String team2;
+class InfoCard extends StatelessWidget {
+  final String title;
+  final String value;
 
-  const MatchCard({
+  const InfoCard({
     super.key,
-    required this.team1,
-    required this.team2,
+    required this.title,
+    required this.value,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(team1, style: const TextStyle(fontSize: 18)),
-            const Text(
-              'VS',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            Text(team2, style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 8),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
