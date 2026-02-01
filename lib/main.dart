@@ -1,46 +1,38 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Hackathon App',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      home: const DashboardScreen(),
+      theme: ThemeData.dark(), // Usually matching the dark aesthetic in images
+      home: const DashboardPage(),
     );
   }
 }
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Smart Dashboard'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          children: const [
-            InfoCard(title: 'Routes', value: '124'),
-            InfoCard(title: 'Active Users', value: '89'),
-            InfoCard(title: 'Avg Load', value: '62%'),
-            InfoCard(title: 'System Status', value: 'Stable'),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage('YOUR_IMAGE_URL'),
+            ),
+            const Text('@YourUsername', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 30),
+            // Example of a Link Button
+            LinkButton(title: "My Portfolio", url: "https://..."),
+            LinkButton(title: "Latest Project", url: "https://..."),
           ],
         ),
       ),
@@ -48,40 +40,21 @@ class DashboardScreen extends StatelessWidget {
   }
 }
 
-class InfoCard extends StatelessWidget {
+class LinkButton extends StatelessWidget {
   final String title;
-  final String value;
-
-  const InfoCard({
-    super.key,
-    required this.title,
-    required this.value,
-  });
+  final String url;
+  const LinkButton({required this.title, required this.url, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+      child: SizedBox(
+        width: 400, // Fixed width for desktop/web look
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(20)),
+          onPressed: () {}, // Add logic to open URL
+          child: Text(title),
         ),
       ),
     );
